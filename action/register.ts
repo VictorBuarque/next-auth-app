@@ -16,9 +16,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const { email, password, name } = validateFields.data;
 
-  const existingUser = await getUserByEmail(email); // Corrigido: Aguarde a conclusão da função getUserByEmail
+  const existingUser = await getUserByEmail(email);
 
-  if (existingUser) { // Corrigido: Verifique se o usuário existe antes de retornar um erro
+  if (existingUser) { 
     return { error: "Email already registered" };
   }
 
@@ -28,7 +28,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     data: {
         name,
         email,
-        password: hashedPassword
+        password: hashedPassword  //Never forget this for password encryption
     }
   });
 
