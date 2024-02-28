@@ -74,6 +74,7 @@ export const LoginForm = () => {
                   placeholder="dev.buarque@example.com"
                   type="email"
                   disabled={isPending}
+                  autoComplete="username"
                   />
                 </FormControl>
                 <FormMessage />
@@ -92,6 +93,7 @@ export const LoginForm = () => {
                   placeholder="*******"
                   type="password"
                   disabled={isPending}
+                  autoComplete="current-password"
                   />
                 </FormControl>
                 <FormMessage />

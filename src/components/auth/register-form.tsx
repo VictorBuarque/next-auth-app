@@ -92,6 +92,7 @@ export const RegisterForm = () => {
                   placeholder="dev.buarque@example.com"
                   type="email"
                   disabled={isPending}
+                  autoComplete="username"
                   />
                 </FormControl>
                 <FormMessage />
@@ -110,6 +111,7 @@ export const RegisterForm = () => {
                   placeholder="*******"
                   type="password"
                   disabled={isPending}
+                  autoComplete="new-password"
                   />
                 </FormControl>
                 <FormMessage />
