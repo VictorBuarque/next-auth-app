@@ -1,7 +1,9 @@
 import NextAuth from "next-auth"
+import { UserRole } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 import authConfig from "@/lib/auth.config"
+import { getUserById } from "../../data/user";
 
 
 export const {
@@ -10,7 +12,36 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  callbacks: {
+    /*async signIn ({ user }) {
+        const existingUser = await getUserById(user.id)
+
+        if (!existingUser || !existingUser.emailVerified) {       <- This is how to block login without verified email
+          return false
+        }
+      return true
+    },*/
+    
+    async session ({ token, session}){
+        if(token.sub && session.user){
+          session.user.id = token.sub; //doing this we insert the id of user in any side(server or client) of app
+        }
+        if (token.role && session.user){
+          session.user.role = token.role as UserRole 
+        }
+      return session
+    },
+    async jwt({ token }) {
+      if(!token.sub) return token;
+
+      const existingUser = await getUserById(token.sub);
+     
+      if(!existingUser)  return token;
+      token.role = existingUser.role;
+      return token;
+    }
+  },
   adapter: PrismaAdapter(db),
-  session: {strategy: "jwt"},
-  ...authConfig,
+  session: { strategy: "jwt" },
+  ...authConfig
 })
