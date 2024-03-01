@@ -11,8 +11,7 @@ const nextAuthConfig: NextAuthConfig = {
         const validateFields = LoginSchema.safeParse(credentials);
         if (validateFields.success) {
           const { email, password } = validateFields.data;
-          console.log(validateFields.data);
-
+          
           const user = await getUserByEmail(email);
           if (!user || !user.password) return null; //This compare who sign in with google or github
 
